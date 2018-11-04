@@ -1,9 +1,9 @@
 import operator
 # This is the file where you must work. Write code in the functions, create new functions,
 # so they work according to the specification
+file_import_inventory = "import_inventory.csv"
+file_export_inventory = "export_inventory.csv"
 
-"""inv = {'arrow': 12, 'gold coin': 42, 'rope': 1, 'torch': 6, 'dagger': 1}
-dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']"""
 # Displays the inventory.
 
 
@@ -73,10 +73,9 @@ def function_print(invList):
 # The file format is plain text with comma separated values (CSV).
 
 
-def import_inventory(inventory, filename="import_inventory.csv"):
-    new_inv = open("import_inventory.csv")
-    newInv = new_inv.read()
-    new_inv.close()
+def import_inventory(inventory, file_import_inventory):
+    with open(file_import_inventory, "r") as f:
+        newInv = f.read()
     newInv = newInv.split(',')
     newInv = add_to_inventory(inventory, newInv)
     print_table(newInv, order=None)
@@ -86,14 +85,15 @@ def import_inventory(inventory, filename="import_inventory.csv"):
 # if the filename argument is None it creates and overwrites a file
 # called "export_inventory.csv". The file format is the same plain text
 # with comma separated values (CSV).
-def export_inventory(inventory, filename="export_inventory.csv"):
-    new_inv = open("export_inventory.csv", "w")
-    inventory = list(inventory)
-    for item in inventory:
-        new_inv.write(item + ", ")
-    size = new_inv.tell()
-    new_inv.truncate(size - 2)
-    new_inv.close()
+def export_inventory(inventory, filename):
+    with open(filename, "w") as new_inv:
+        for key, value in inventory.items():
+            i = 0
+            while i < value:
+                new_inv.write(key + ",")
+                i += 1
+        size = new_inv.tell()
+        new_inv.truncate(size - 1)
 
 
 # Don't forget to delete this
